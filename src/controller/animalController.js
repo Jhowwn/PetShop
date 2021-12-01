@@ -43,7 +43,7 @@ router.get('/find/:id', async (req, res) => {
 
 router.get('/findAll', async (req, res) => {
     try{
-        const found = await db.findAllANimal();
+        const found = await db.findAllAnimal();
         res.status(200).send({message: found});
     }catch {
         res.status(400).send({message: 'Erro ao buscar todos'});

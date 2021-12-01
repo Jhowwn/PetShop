@@ -45,7 +45,7 @@ async function findAnimal(id){
     return rows;
 };
 
-async function findAllANimal(){
+async function findAllAnimal(){
     const conn = await database.connect();
     const sql = 'select * from vw_todos_animais';
     const [rows] = await conn.query(sql);
@@ -53,4 +53,4 @@ async function findAllANimal(){
     return rows;
 }; 
 
-export default {insertAnimal, updateAnimal, disableAnimal, findAnimal, findAllANimal}
+export default {insertAnimal, updateAnimal, disableAnimal, findAnimal, findAllAnimal}

@@ -18,6 +18,29 @@ async function updateFuncionario({nome, cpf, id}){
     ];
     conn.query(sql, updtFunci);
     conn.end();
-}
+};
 
-export default {insertFuncionario, updateFuncionario};
+async function disableFuncionario(id){
+    const conn = await database.connect();
+    const sql = `CALL sp_delete_funcionario(${id})`;
+    conn.query(sql);
+    conn.end();
+};
+
+async function findFuncionario(id){
+    const conn = await database.connect();
+    const sql = `CALL sp_acha_funcionario(${id})`;
+    const [rows] = await conn.query(sql);
+    conn.end();
+    return rows[0];
+};
+
+async function findAllFuncionario(){
+    const conn = await database.connect();
+    const sql = 'SELECT * FROM vw_todos_funcionarios';
+    const [rows] = await conn.query(sql);
+    conn.end();
+    return rows;
+};
+
+export default {insertFuncionario, updateFuncionario, disableFuncionario, findFuncionario, findAllFuncionario};
