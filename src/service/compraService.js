@@ -1,6 +1,7 @@
 import database from '../repository/configDb.js';
 
-async function insertCompras({costSale, dateSale, client, funcionario}){
+async function insertCompras(costSale, dateSale, client, funcionario){
+    console.log(costSale)
     const conn = await database.connect();
     const sql = 'call sp_insere_compra(?, ?, ?, ?)';
     const newPurchase = [
@@ -9,11 +10,12 @@ async function insertCompras({costSale, dateSale, client, funcionario}){
         client, 
         funcionario
     ];
+    console.log(newPurchase)
     conn.query(sql, newPurchase);
     conn.end();
 };
 
-async function updateCompras({costSale, dateSale, client, funcionario, idPurchase}){
+async function updateCompras(costSale, dateSale, client, funcionario, idPurchase){
     const conn = await database.connect();
     const sql = 'CALL sp_update_compra(?,?,?,?,?)'
     const updPurchase = [
@@ -23,6 +25,7 @@ async function updateCompras({costSale, dateSale, client, funcionario, idPurchas
         funcionario, 
         idPurchase
     ];
+    console.log(updPurchase)
     conn.query(sql, updPurchase);
     conn.end();
 };

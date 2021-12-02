@@ -4,6 +4,8 @@ import animal from './controller/animalController.js';
 import funcionario from './controller/funcionarioController.js';
 import compra from './controller/compraController.js';
 
+import { verifyJWT } from './middlewares/jwt.js';
+
 const router = express.Router();
 
 router.use('/cliente', cliente);

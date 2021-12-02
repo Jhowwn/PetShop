@@ -4,8 +4,12 @@ import db from '../service/compraService.js';
 const router = express.Router();
 
 router.post('/', async (req, res) => {
+    const {costSale, client, funcionario} = req.body
+    const hoje = new Date();
+    const dataFormat = `${hoje.getFullYear()}-${hoje.getMonth()}-${hoje.getDay()} ${hoje.getHours()}:${hoje.getMinutes()}:${hoje.getSeconds()}`
+    console.log(dataFormat)
     try{
-        await db.insertCompras(req.body);
+        await db.insertCompras(costSale, dataFormat, client, funcionario);
         res.status(200).send({message: 'Compra realizada com sucesso'});
     } catch {
         res.status(500).send({message: 'Houve algum problema na compra'})
@@ -13,8 +17,11 @@ router.post('/', async (req, res) => {
 });
 
 router.put('/', async (req, res) => {
+    const {costSale, client, funcionario, idPurchase} = req.body
+    const hoje = new Date();
+    const dataFormat = `${hoje.getFullYear()}-${hoje.getMonth()}-${hoje.getDay()} ${hoje.getHours()}:${hoje.getMinutes()}:${hoje.getSeconds()}`
     try { 
-        await db.updateCompras(req.body);
+        await db.updateCompras(costSale, dataFormat, client, funcionario, idPurchase);
         res.status(200).send({message: 'Atualização ocorreu com sucesso'});
     } catch {
         res.status(500).send({message: "Ocorreu um erro na atualização"})

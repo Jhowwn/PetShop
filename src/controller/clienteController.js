@@ -1,11 +1,23 @@
 import express from 'express';
 import db from '../service/clienteService.js';
+import {body, validationResult} from "express-validator";
+import { cpf } from "cpf-cnpj-validator";
+
 
 const router = express.Router();
 
-router.post('/', async (req, res) => {
-    
-    console.log(req.body)
+router.post('/',[//validações
+    body('name').isLength({min: 1}).withMessage("Nome Vazio"),
+    body('cpf').custom((numCpf) => {
+        const checkCPF = cpf.isValid(numCpf);
+        if(!checkCPF) return Promise.reject("CPF Inválido");
+        return true;
+    }),
+], async (req, res) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).send({errors: errors.array()});
+    }
     try {
         await db.InsertCliente(req.body);
         res.status(201).send({message: 'Cliente cadastrado com sucesso'});
