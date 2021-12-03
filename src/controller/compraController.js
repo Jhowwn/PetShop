@@ -16,12 +16,13 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.put('/', async (req, res) => {
-    const {costSale, client, funcionario, idPurchase} = req.body
+router.put('/:id', async (req, res) => {
+    const {costSale, client, funcionario} = req.body;
+    const id = req.params.id;
     const hoje = new Date();
     const dataFormat = `${hoje.getFullYear()}-${hoje.getMonth()}-${hoje.getDay()} ${hoje.getHours()}:${hoje.getMinutes()}:${hoje.getSeconds()}`
     try { 
-        await db.updateCompras(costSale, dataFormat, client, funcionario, idPurchase);
+        await db.updateCompras(costSale, dataFormat, client, funcionario, id);
         res.status(200).send({message: 'Atualização ocorreu com sucesso'});
     } catch {
         res.status(500).send({message: "Ocorreu um erro na atualização"})

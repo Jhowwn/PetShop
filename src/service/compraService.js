@@ -15,7 +15,7 @@ async function insertCompras(costSale, dateSale, client, funcionario){
     conn.end();
 };
 
-async function updateCompras(costSale, dateSale, client, funcionario, idPurchase){
+async function updateCompras(costSale, dateSale, client, funcionario, id){
     const conn = await database.connect();
     const sql = 'CALL sp_update_compra(?,?,?,?,?)'
     const updPurchase = [
@@ -23,7 +23,7 @@ async function updateCompras(costSale, dateSale, client, funcionario, idPurchase
         dateSale, 
         client, 
         funcionario, 
-        idPurchase
+        id
     ];
     console.log(updPurchase)
     conn.query(sql, updPurchase);

@@ -15,7 +15,7 @@ async function insertAnimal({animal_name, specie, gender, birth, Weight, client}
     conn.end();
 };
 
-async function updateAnimal({animal_name, specie, gender, birth, Weight, id}){
+async function updateAnimal({animal_name, specie, gender, birth, Weight}, id){
     const conn = await database.connect();
     const sql = 'call sp_update_animal(?, ?, ?, ?, ?, ?)';
     const updAnimal = [

@@ -15,7 +15,7 @@ async function InsertCliente({name, cpf, birthday, gender, phone, email}){
     conn.end();
 }
 
-async function updateCliente({name, cpf, birthday, gender, phone, email, id}){
+async function updateCliente({name, cpf, birthday, gender, phone, email}, id){
     const conn = await database.connect();
     const sql = 'call sp_update_cliente (?,?,?,?,?,?,?)';
     const updClient = [

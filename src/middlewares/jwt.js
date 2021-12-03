@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-function verifyJWT(reqq, res, next){
+function verifyJWT(req, res, next){
     const secret = 'Os sonhos dos homens não tem fim';
     const authHeader = req.headers.authorization;
     if(!authHeader){
@@ -16,7 +16,7 @@ function verifyJWT(reqq, res, next){
         return res.status(401).send({message: 'Token Inválido'});
     }
 
-    jwt.verify(token,secret, (err, decode) => {
+    jwt.verify(token,secret, (err, decoded) => {
         if(err){
             return res.status(401).send({message: 'Usuário ou senha Incorreto'});
         }
