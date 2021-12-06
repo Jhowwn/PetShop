@@ -1,27 +1,29 @@
 import database from '../repository/configDb.js'
 
-async function InsertCliente({name, cpf, birthday, gender, phone, email}){
+async function InsertCliente({name, cpf, gender, phone, email}, birth){
     const conn = await database.connect();
     const sql = "call sp_insere_cliente (?,?,?,?,?,?)"
+    console.log(birth)
     const newCliente = [
         name, 
         cpf, 
-        birthday, 
+        birth, 
         gender, 
         phone, 
         email
     ]
+    console.log(newCliente)
     conn.query(sql, newCliente);
     conn.end();
 }
 
-async function updateCliente({name, cpf, birthday, gender, phone, email}, id){
+async function updateCliente({name, cpf, gender, phone, email}, id, birth){
     const conn = await database.connect();
     const sql = 'call sp_update_cliente (?,?,?,?,?,?,?)';
     const updClient = [
         name, 
         cpf, 
-        birthday, 
+        birth, 
         gender, 
         phone, 
         email, 

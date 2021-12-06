@@ -37,9 +37,9 @@ router.put('/:id', [//validações
     body('Weight').isNumeric().withMessage('Digite o Peso corretamente'),
 ], async (req, res) => {
 
-    const errors = validationResult(req);
-    if(!errors.isEmpty()){
-        return res.status(400).send({errors: errors.array()});
+    const errors = validationResult(req);//armazeno as validções na váriavel errosr
+    if(!errors.isEmpty()){//verifico se a váriavel errors está diferente de vazia,
+        return res.status(400).send({errors: errors.array()});// se ela conter algo retorno o erro
     }
 
     const id = req.params.id;

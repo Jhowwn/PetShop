@@ -1,9 +1,27 @@
 import express from 'express';
 import db from '../service/funcionarioService.js';
+import {body, validationResult} from "express-validator";
+import { cpf } from "cpf-cnpj-validator";
+
 
 const router =  express.Router();
 
-router.post('/', async (req, res) => {
+router.post('/', [//validações
+    body('name').isLength({min: 1}).withMessage("Nome Vazio"),
+    body('name').isLength({max: 45}).withMessage("Digite um noe"),
+    body('cpf').custom((numCpf) => {
+        const checkCPF = cpf.isValid(numCpf);
+        if(!checkCPF) return Promise.reject("CPF Inválido");
+        return true;
+    }),
+], async (req, res) => {
+
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty()){
+        return res.status(400).send({errors: errors.array()});
+    }
+
     try{
         await db.insertFuncionario(req.body);
         res.status(200).send({message: "Funcionario cadastrado com sucesso"});
@@ -12,9 +30,26 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.put('/', async (req, res) => {
+router.put('/:id', [//validações
+    body('name').isLength({min: 1}).withMessage("Nome Vazio"),
+    body('name').isLength({max: 45}).withMessage("Digite um noe"),
+    body('cpf').custom((numCpf) => {
+        const checkCPF = cpf.isValid(numCpf);
+        if(!checkCPF) return Promise.reject("CPF Inválido");
+        return true;
+    }),
+], async (req, res) => {
+
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty()){
+        return res.status(400).send({errors: errors.array()});
+    }
+
+    const id = req.params.id;
+
     try{
-        await db.updateFuncionario(req.body);
+        await db.updateFuncionario(req.body, id);
         res.status(200).send({message: "Funcionario atualizado com sucesso"});
     } catch {
         res.status(400).send({message: "Houve algum problema na atualização"})

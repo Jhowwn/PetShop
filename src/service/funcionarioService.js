@@ -1,18 +1,18 @@
 import database from '../repository/configDb.js';
 
-async function insertFuncionario({nome, cpf}){
+async function insertFuncionario({name, cpf}){
     const conn = await database.connect();
     const sql = "call sp_insere_funcionario (?, ?)";
-    const newFunci = [nome, cpf];
+    const newFunci = [name, cpf];
     conn.query(sql, newFunci);
     conn.end();
 };
 
-async function updateFuncionario({nome, cpf, id}){
+async function updateFuncionario({name, cpf}, id){
     const conn = await database.connect();
     const sql = 'CALL sp_update_funcionario(?,?,?);'
     const updtFunci = [
-        nome,
+        name,
         cpf,
         id
     ];

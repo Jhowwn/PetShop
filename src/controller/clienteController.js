@@ -19,16 +19,25 @@ router.post('/',[//validações
     body('phone').isNumeric().withMessage('Telefone deve conter apenas números'),
     body('email').isEmail().withMessage('Digite um Email válido'),
     body('email').isLength({min: 1}).withMessage('Email não pode ser vazio'),
-    //body('birth').isDate().withMessage("Digite uma data válida")
+    body('birthday.day').isLength({max: 2}).withMessage('Dia não pode ser inválido'),
+    body('birthday.mounth').isLength({max: 2}).withMessage('Mês não pode ser inválido'),
+    body('birthday.year').isLength({max: 4}).withMessage('Ano não pode ser inválido'),
+    body('birthday.day').isNumeric().withMessage('Dia só pode conter números'),
+    body('birthday.mounth').isLength({max: 2}).withMessage('Mês só pode conter números'),
+    body('birthday.year').isLength({max: 4}).withMessage('Ano só pode conter números'),
 ], async (req, res) => {
 
     const errors = validationResult(req);
     if(!errors.isEmpty()){
         return res.status(400).send({errors: errors.array()});
     }
+    const {year, mounth, day}= req.body.birthday;
+    console.log(year, mounth, day);
+
+    const birth = `${year}/${mounth}/${day}`; 
 
     try {
-        await db.InsertCliente(req.body);
+        await db.InsertCliente(req.body, birth);
         res.status(201).send({message: 'Cliente cadastrado com sucesso'});
     }catch (err){
         res.status(500).send({message: 'Houve algum erro na inserção'});
@@ -49,7 +58,9 @@ router.put('/:id', [//validações
     body('phone').isLength({min: 1}).withMessage("Digite um número válido"),
     body('email').isEmail().withMessage('Digite um Email válido'),
     body('email').isLength({min: 1}).withMessage('Email não pode ser vazio'),
-    //body('birth').isDate().withMessage("Digite uma data válida")
+    body('birthday.day').isLength({min: 1}).withMessage('Dia não pode ser válido'),
+    body('birthday.mounth').isLength({min: 1}).withMessage('Mês não pode ser válido'),
+    body('birthday.year').isLength({min: 1}).withMessage('Ano não pode ser válido'),
 ], async (req, res) => {
 
     const errors = validationResult(req);
@@ -60,8 +71,13 @@ router.put('/:id', [//validações
 
     const id = req.params.id;
 
+    const {year, mounth, day}= req.body.birthday;
+    console.log(year, mounth, day);
+
+    const birth = `${year}/${mounth}/${day}`; 
+
     try{
-        await db.updateCliente(req.body, id);
+        await db.updateCliente(req.body, id, birth);
         res.status(201).send({message: "Cliente atualizado com sucesso"});
     }catch{
         res.status(400).send({message: 'Algo deu errado na atualização'})

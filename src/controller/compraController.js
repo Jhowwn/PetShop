@@ -1,9 +1,21 @@
 import express from 'express';
 import db from '../service/compraService.js';
+import {body, validationResult} from "express-validator";
+
 
 const router = express.Router();
 
-router.post('/', async (req, res) => {
+router.post('/', [//validações
+    body('costSale').isDecimal().withMessage("Digite um valor válido"),
+    body('client').isNumeric().withMessage("Digite um cliente válido"),
+    body('funcionario').isNumeric().withMessage('Digite um funcionario válido'),
+], async (req, res) => {
+
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).send({errors: errors.array()});
+    }
+
     const {costSale, client, funcionario} = req.body
     const hoje = new Date();
     const dataFormat = `${hoje.getFullYear()}-${hoje.getMonth()}-${hoje.getDay()} ${hoje.getHours()}:${hoje.getMinutes()}:${hoje.getSeconds()}`
@@ -16,7 +28,17 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', [//validações
+    body('costSale').isDecimal().withMessage("Digite um valor válido"),
+    body('client').isNumeric().withMessage("Digite um cliente válido"),
+    body('funcionario').isNumeric().withMessage('Digite um funcionario válido'),
+], async (req, res) => {
+    
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).send({errors: errors.array()});
+    }
+
     const {costSale, client, funcionario} = req.body;
     const id = req.params.id;
     const hoje = new Date();
