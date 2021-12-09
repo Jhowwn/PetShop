@@ -42,7 +42,7 @@ async function deleteCliente(id){
 
 async function findCliente(id){
     const conn = await database.connect();
-    const sql = `CALL sp_acha_usuario(${id})`;
+    const sql = `call sp_acha_cliente(${id})`;
     const [rows] = await conn.query(sql);
     conn.end();
     return rows

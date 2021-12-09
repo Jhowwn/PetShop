@@ -5,7 +5,7 @@ async function connect () {
         host: 'localhost',
         user: 'root',
         password: '',
-        database: 'projeto'
+        database: 'petShop'
     };
 
      const connection = await mysql.createConnection(dataInfo);

@@ -22,11 +22,8 @@ router.post('/', [
     }
     //Para Cadastrar Informe:
     const {email, password, userName} = req.body;
-
+    
     try{
-        const emailUserBD = await db.checkEmail(email);
-        console.log(email)
-        if(emailUserBD.length > 0) return res.status(201).send({message: "Email já cadastrado."});
         await db.insertUser(email, password, userName);
         res.status(201).send({message: 'usuario cadastrado com sucesso'})
     }catch(err){
@@ -76,7 +73,16 @@ router.get("/getUser/:id", async (req, res) => {
     const id = req.params.id;
     try{
         const found = await db.findUser(id);
-        res.status(201).send({message: found});
+        res.status(201).send({message: found[0]});
+    }catch{
+        res.status(500).send({message: 'Internal error server'})
+    }
+});
+
+router.get("/getUser", async (req, res) => {
+    try{
+        const found = await db.findAllUser();
+        res.status(201).send({message: found[0]});
     }catch{
         res.status(500).send({message: 'Internal error server'})
     }
